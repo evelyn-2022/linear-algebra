@@ -1,0 +1,30 @@
+.DS_Store
+
+# LaTeX-generated auxiliary files
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# LaTeX-generated bibliography files
+*.bbl
+*.blg
+
+# Output files (optional, depending on whether you want to track them)
+*.dvi
+*.ps
+
+# Temporary files created by editors
+*.tmp
+*.bak
+*.swp
+
+# Editor-specific settings
+.vscode/
+.idea/
+
+# Indent log
+indent.log

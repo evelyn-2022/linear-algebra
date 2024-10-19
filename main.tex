@@ -13,6 +13,11 @@
 \usepackage{tikz}
 \usepackage{xcolor}
 \newtheorem*{example*}{Example}
+\newenvironment{examplex}
+    {\begin{flushleft}\noindent\textbf{Example:}\quad}
+    {\end{flushleft}}
+\usepackage{setspace}
+
 
 
 \title{Linear Algebra Lecture Notes}
@@ -32,7 +37,7 @@
 
 \clearpage
 
-\chapter{Solving Linear Equations}
+\chapter{Solving Linear Equations $Ax=b$}
 \include{chapters/chapter_2_solving_linear_equations}
 
 \end{document}

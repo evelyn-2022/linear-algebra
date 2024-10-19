@@ -1,1 +1,229 @@
-\section{Elimination and Back Substitution}
+\noindent A systematic way to solve the equation $Ax=b$:
+\begin{enumerate}
+    \item Apply elimination to $Ax=b$
+    \item Get upper triangular $U$
+    \item Solve $Ux=c$ by back substitution
+\end{enumerate}
+
+\section{The number of solutions to $Ax=b$}
+
+\paragraph{1. Exactly one solution} $A$ has independent columns. $A$ has an inverse matrix $A^{-1}$. Example:
+
+\[
+    A =
+    \begin{bmatrix}
+        2 & 3 \\
+        4 & 2
+    \end{bmatrix},
+    \quad
+    b =
+    \begin{bmatrix}
+        5 \\ 6
+    \end{bmatrix}
+    \quad\Rightarrow\quad
+    x =
+    \begin{bmatrix}
+        1 \\ 1
+    \end{bmatrix}
+\]
+
+\paragraph{2. No solution} $b$ is not in the column space of $A$. Example:
+
+\[
+    A =
+    \begin{bmatrix}
+        2 & 3 \\
+        4 & 6
+    \end{bmatrix},
+    \quad
+    b =
+    \begin{bmatrix}
+        6 \\ 15
+    \end{bmatrix}
+    \quad\Rightarrow\quad
+    0=3
+\]
+
+\paragraph{3. Infinitely many solutions} $A$ has dependent columns. Example:
+
+\[
+    A=
+    \begin{bmatrix}
+        2 & 3 \\
+        4 & 6
+    \end{bmatrix},
+    \quad
+    b=
+    \begin{bmatrix}
+        6 \\ 12
+    \end{bmatrix}
+    \quad\Rightarrow\quad
+    x=
+    \begin{bmatrix}
+        3\alpha \\ 6-2\alpha
+    \end{bmatrix}
+    \text{for any number} \; \alpha
+\]
+
+\section{Elimination Matrix $E_{ij}$}
+
+We move column by column from left to right. Typically, the first non-zero element in each column is chosen as the pivot (one row below the row of the pivot we just used).
+The pivots are used to eliminate the elements below them.
+The elimination matrix $E_{ij}$ eliminates the element $a_{ij}$ in the $i$th row and $j$th column.
+
+
+\begin{examplex}
+    \[
+        A =
+        \begin{bmatrix}
+            2 & 3  & 4  \\
+            4 & 11 & 14 \\
+            2 & 8  & 17
+        \end{bmatrix},
+        \quad
+        b =
+        \begin{bmatrix}
+            19 \\ 55 \\ 50
+        \end{bmatrix}
+    \]
+
+    \paragraph{Step 1}
+    The first pivot is $a_{11} = 2$. Eliminate the elements below it. \\
+    \vspace{0.4cm}
+    Eliminate $a_{21}$ \qquad
+    $
+        E_{21} =
+        \begin{bmatrix}
+            1  & 0 & 0 \\
+            -2 & 1 & 0 \\
+            0  & 0 & 1
+        \end{bmatrix}
+        \quad
+        E_{21}A =
+        \begin{bmatrix}
+            2 & 3 & 4  \\
+            0 & 5 & 6  \\
+            2 & 8 & 17
+        \end{bmatrix}
+        \quad
+        E_{21}b =
+        \begin{bmatrix}
+            19 \\ 17 \\ 50
+        \end{bmatrix}
+    $
+
+    \vspace{0.4cm}
+    Eliminate $a_{31}$ \qquad
+    $
+        E_{31} =
+        \begin{bmatrix}
+            1  & 0 & 0 \\
+            0  & 1 & 0 \\
+            -1 & 0 & 1
+        \end{bmatrix}
+        \quad
+        E_{31}E_{21}A =
+        \begin{bmatrix}
+            2 & 3 & 4  \\
+            0 & 5 & 6  \\
+            0 & 5 & 13
+        \end{bmatrix}
+        \quad
+        E_{31}E_{21}b =
+        \begin{bmatrix}
+            19 \\ 17 \\ 31
+        \end{bmatrix}
+    $
+
+    \paragraph{Step 2}
+    The second pivot is $a_{22} = 5$. Eliminate the elements below it. \\
+
+    \vspace{0.4cm}
+    Eliminate $a_{32}$ \qquad
+    $
+        E_{32} =
+        \begin{bmatrix}
+            1 & 0  & 0 \\
+            0 & 1  & 0 \\
+            0 & -1 & 1
+        \end{bmatrix}
+        \quad
+        E_{32}E_{31}E_{21}A =
+        \begin{bmatrix}
+            2 & 3 & 4 \\
+            0 & 5 & 6 \\
+            0 & 0 & 7
+        \end{bmatrix}
+        \quad
+        E_{32}E_{31}E_{21}b =
+        \begin{bmatrix}
+            19 \\ 17 \\ 7
+        \end{bmatrix}
+    $
+
+    \paragraph{Step 3}
+    Solve $Ux=c$ by back substitution. \\
+
+    \vspace{0.4cm}
+    Now we have $U = \begin{bmatrix}
+            2 & 3 & 4 \\
+            0 & 5 & 6 \\
+            0 & 0 & 7
+        \end{bmatrix}$
+    and $c = \begin{bmatrix}
+            19 \\ 17 \\ 7
+        \end{bmatrix}$. We can go from the bottom up to solve for $x$.
+\end{examplex}
+
+\begin{mdframed}
+    \textbf{An easy way to come up with elimination matrix} \\
+
+    \noindent To go from $A =
+        \begin{bmatrix}
+            2 & 3 & 4  \\
+            0 & 5 & 6  \\
+            2 & 8 & 17
+        \end{bmatrix}$ to $B =
+        \begin{bmatrix}
+            2 & 3 & 4  \\
+            0 & 5 & 6  \\
+            0 & 5 & 13
+        \end{bmatrix}$, we need to come up with $E_{31}$: \\
+
+    \baselineskip=1.5\baselineskip
+    \noindent \textbf{1. For the first row in $E_{31}$:} \\
+    $A_{row_{1}}$ is $\begin{bmatrix}
+            2 & 3 & 4
+        \end{bmatrix}$, $B_{row{1}}$ is $\begin{bmatrix}
+            2 & 3 & 4
+        \end{bmatrix}$. We take $1 \times A_{row_{1}}$, $0 \times A_{row_{2}}$, and $0 \times A_{row_{3}}$. So the first row of $E_{31}$ is $\begin{bmatrix}
+            1 & 0 & 0
+        \end{bmatrix}$. \\
+    \noindent \textbf{2. For the second row in $E_{31}$:} \\
+    $A_{row_{2}}$ is $\begin{bmatrix}
+            0 & 5 & 6
+        \end{bmatrix}$, $B_{row{2}}$ is $\begin{bmatrix}
+            0 & 5 & 6
+        \end{bmatrix}$. We take $0 \times A_{row_{1}}$, $1 \times A_{row_{2}}$, and $0 \times A_{row_{3}}$. So the second row of $E_{31}$ is $\begin{bmatrix}
+            0 & 1 & 0
+        \end{bmatrix}$. \\
+    \noindent \textbf{3. For the third row in $E_{31}$:} \\
+    $A_{row_{3}}$ is $\begin{bmatrix}
+            2 & 8 & 17
+        \end{bmatrix}$, $B_{row{3}}$ is $\begin{bmatrix}
+            0 & 5 & 13
+        \end{bmatrix}$. We take $-1 \times A_{row_{1}}$, $0 \times A_{row_{2}}$, and $1 \times A_{row_{3}}$. So the third row of $E_{31}$ is $\begin{bmatrix}
+            -1 & 0 & 1
+        \end{bmatrix}$. \\
+    \noindent \textbf{4. Put it togeter:}
+    \[
+        E_{31} =
+        \begin{bmatrix}
+            1  & 0 & 0 \\
+            0  & 1 & 0 \\
+            -1 & 0 & 1
+        \end{bmatrix}
+    \]
+\end{mdframed}
+
+\section{Permutation Matrix $P$}

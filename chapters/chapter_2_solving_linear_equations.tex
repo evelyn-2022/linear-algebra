@@ -2,7 +2,7 @@
 \begin{enumerate}
     \item Apply elimination to $Ax=b$
     \item Get upper triangular $U$
-    \item Solve $Ux=c$ by back substitution
+    \item Solve $Ux=c$ by \textbf{back substitution}
 \end{enumerate}
 
 \section{The number of solutions to $Ax=b$}
@@ -65,12 +65,12 @@
     \text{for any number} \; \alpha
 \]
 
-\section{Elimination Matrix $E_{ij}$}
+\section{Elimination Matrix $E_{ij}$ \& Permutation Matrix $P$}
 
+\paragraph{Elimination Matrix $E_{ij}$}
 We move column by column from left to right. Typically, the first non-zero element in each column is chosen as the pivot (one row below the row of the pivot we just used).
 The pivots are used to eliminate the elements below them.
 The elimination matrix $E_{ij}$ eliminates the element $a_{ij}$ in the $i$th row and $j$th column.
-
 
 \begin{examplex}
     \[
@@ -226,4 +226,424 @@ The elimination matrix $E_{ij}$ eliminates the element $a_{ij}$ in the $i$th row
     \]
 \end{mdframed}
 
-\section{Permutation Matrix $P$}
+
+\paragraph{Permutation Matrix $P$}
+When zero appears in a pivot position, we can exange rows to bring a nonzero element to that position.
+
+\[
+    A = \begin{bmatrix}
+        2 & 3 & 4  \\
+        4 & 6 & 14 \\
+        2 & 8 & 17
+    \end{bmatrix}
+    \rightarrow
+    \begin{bmatrix}
+        2 & 3 & 4  \\
+        0 & 0 & 6  \\
+        0 & 5 & 13
+    \end{bmatrix}
+    = B
+\]
+
+\noindent Exchange row 2 with row 3:
+
+\[
+    PB = \begin{bmatrix}
+        1 & 0 & 0 \\
+        0 & 0 & 1 \\
+        0 & 1 & 0
+    \end{bmatrix}
+    \begin{bmatrix}
+        2 & 3 & 4  \\
+        0 & 0 & 6  \\
+        0 & 5 & 13
+    \end{bmatrix}
+    = \begin{bmatrix}
+        2 & 3 & 4  \\
+        0 & 5 & 13 \\
+        0 & 0 & 6
+    \end{bmatrix}
+    = U
+\]
+
+\begin{mdframed}
+
+    Properties of Permutation Matrix $P$:
+
+    \begin{itemize}
+        \item $P$ has a 1 in each row and a 1 in each column. All other entries are 0
+        \item If $A$ is invertible, then $PA=LU$
+        \item $P^T = P^{-1}$
+    \end{itemize}
+\end{mdframed}
+
+\paragraph{Row Permutation $P$ and Column Permutation $Q$}
+
+Start with a 3 by 3 matrix $A$. Reorder its rows 1, 2, 3 by $P$:
+\[
+    P = \begin{bmatrix}
+        0 & 1 & 0 \\
+        0 & 0 & 1 \\
+        1 & 0 & 0
+    \end{bmatrix}
+    \quad
+    PA = \begin{bmatrix}
+        a_{21} & a_{22} & a_{23} \\
+        a_{31} & a_{32} & a_{33} \\
+        a_{11} & a_{12} & a_{13}
+    \end{bmatrix}
+\]
+
+\noindent Then reorder its columns by $Q$ in the order 3, 2, 1:
+\[
+    Q =
+    \begin{bmatrix}
+        0 & 0 & 1 \\
+        0 & 1 & 0 \\
+        1 & 0 & 0
+    \end{bmatrix}
+    \quad
+    PAQ =
+    \begin{bmatrix}
+        a_{23} & a_{22} & a_{21} \\
+        a_{33} & a_{32} & a_{31} \\
+        a_{13} & a_{12} & a_{11}
+    \end{bmatrix}
+\]
+
+\paragraph{Augmented Matrix $[A \; b]$}
+
+To make sure the operations on the matrix A are also applied to the vector b, we can combine them into an augmented matrix $[A \; b]$.
+
+\[
+    \begin{bmatrix}
+        A & b
+    \end{bmatrix} =
+    \begin{bmatrix}
+        2 & 3  & 4  & 19 \\
+        4 & 11 & 14 & 55 \\
+        2 & 8  & 17 & 50
+    \end{bmatrix}
+    \xrightarrow{E}
+    \begin{bmatrix}
+        2 & 3 & 4 & 19 \\
+        0 & 5 & 6 & 17 \\
+        0 & 0 & 7 & 7
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        U & c
+    \end{bmatrix}
+\]
+
+\section{Zero on the Diagonal of $U^*$ and Dependence}
+
+\[
+    U^* =
+    \begin{bmatrix}
+        * & * & *          & * \\
+        0 & * & *          & * \\
+        0 & 0 & \textbf{0} & * \\
+        0 & 0 & 0          & *
+    \end{bmatrix}
+\]
+
+\noindent The entry \(0\) in row 3, column 3 indicates:
+
+\begin{itemize}
+    \item The first three columns are dependent.
+    \item The last two rows are dependent.
+\end{itemize}
+
+\section{Inverse Matrix $A^{-1}$}
+
+$A$ is a square matrix. It needs n independent columns to have inverse matrix $A^{-1}$.
+
+\begin{mdframed}
+    \[
+        \text{2 by 2 Inverse} \qquad
+        A^{-1} = \begin{bmatrix}
+            a & b \\ c & d
+        \end{bmatrix}^{-1}
+        = \frac{1}{ad-bc}\begin{bmatrix}
+            d & -b \\ -c & a
+        \end{bmatrix}
+    \]
+    The number $ad-bc$ is called the \textbf{determinant} of the matrix.
+\end{mdframed}
+
+\noindent Suppose there is a nonzero vector $x$ such that $Ax=0$, then $A$ has dependent columns. It cannot have an inverse.
+
+\begin{examplex}
+    \[
+        A = \begin{bmatrix}
+            1 & 2 \\ 2 & 4
+        \end{bmatrix}, \quad
+        x = \begin{bmatrix}
+            x_1 \\ x_2
+        \end{bmatrix}
+    \]
+
+    To solve $Ax=0$, we get $x_1 = -2x_2$. That means for any nonzero $x_2$, we can solve for $x_1$.
+\end{examplex}
+
+\paragraph{Inverse of a Product}
+\begin{mdframed}
+    \[
+        (AB)^{-1} = B^{-1}A^{-1}
+    \]
+    \text{Similarly:}
+    \[
+        (ABC)^{-1} = C^{-1}B^{-1}A^{-1}
+    \]
+\end{mdframed}
+
+\section{Gause-Jordan Elimination}
+
+
+Solve $AX = I \rightarrow X = A^{-1}$. Slower than solving $Ax = b$. We have a matrix $[A \; I]$ and apply elimination to get $[I \; A^{-1}]$.
+\vspace{10pt}
+
+\noindent Suppose we have $A = \begin{bmatrix}
+        1 & 9 & 3 \\
+        0 & 3 & 6 \\
+        2 & 6 & 9
+    \end{bmatrix}$, then
+$\begin{bmatrix} A & I \end{bmatrix}
+    =
+    \left[
+        \begin{array}{ccc|ccc}
+            1 & 9 & 3 & 1 & 0 & 0 \\
+            0 & 3 & 6 & 0 & 1 & 0 \\
+            2 & 6 & 9 & 0 & 0 & 1
+        \end{array}
+        \right]$ \\
+
+\vspace{8pt}
+\noindent \textbf{Step 1: Make zeros below the leading 1 in column 1}
+
+\[
+    row_3 = row_3 - 2 \times row_1 \quad \rightarrow \quad \left[
+        \begin{array}{ccc|ccc}
+            1 & 9   & 3 & 1  & 0 & 0 \\
+            0 & 3   & 6 & 0  & 1 & 0 \\
+            0 & -12 & 3 & -2 & 0 & 1
+        \end{array}
+        \right]
+\]
+
+\noindent \textbf{Step 2: Make leading 1 in column 2}
+
+\[
+    row_2 = \frac{1}{3}row_2 \quad \rightarrow \quad \left[
+        \begin{array}{ccc|ccc}
+            1 & 9   & 3 & 1  & 0   & 0 \\
+            0 & 1   & 2 & 0  & 1/3 & 0 \\
+            0 & -12 & 3 & -2 & 0   & 1
+        \end{array}
+        \right]
+\]
+
+\noindent \textbf{Step 3: Make zeros above and below leading 1 in column 2}
+
+\[
+    row_1 = row_1 - 9 \times row_2 \quad \rightarrow \quad \left[
+        \begin{array}{ccc|ccc}
+            1 & 0   & -15 & 1  & -3  & 0 \\
+            0 & 1   & 2   & 0  & 1/3 & 0 \\
+            0 & -12 & 3   & -2 & 0   & 1
+        \end{array}
+        \right]
+\]
+\[
+    row_3 = row_3 + 12 \times row_2 \quad \rightarrow \quad \left[
+        \begin{array}{ccc|ccc}
+            1 & 0 & -15 & 1  & -3  & 0 \\
+            0 & 1 & 2   & 0  & 1/3 & 0 \\
+            0 & 0 & 27  & -2 & 4   & 1
+        \end{array}
+        \right]
+\]
+
+\noindent \textbf{Step 4: Make leading 1 in column 3}
+
+\[
+    row_3 = 1/27 \times row_3  \quad \rightarrow \quad \left[
+        \begin{array}{ccc|ccc}
+            1 & 0 & -15 & 1     & -3   & 0    \\
+            0 & 1 & 2   & 0     & 1/3  & 0    \\
+            0 & 0 & 1   & -2/27 & 4/27 & 1/27
+        \end{array}
+        \right]
+\]
+
+\noindent \textbf{Step 5: Make zeros above leading 1 in column 3}
+
+\[
+    row_1 = row_1 + 15 \times row_3  \quad \rightarrow \quad \left[
+        \begin{array}{ccc|ccc}
+            1 & 0 & 0 & -1/9  & -7/9 & 5/9  \\
+            0 & 1 & 2 & 0     & 1/3  & 0    \\
+            0 & 0 & 1 & -2/27 & 4/27 & 1/27
+        \end{array}
+        \right]
+\]
+
+\[
+    row_2 = row_2 -2 \times row_3  \quad \rightarrow \quad \left[
+        \begin{array}{ccc|ccc}
+            1 & 0 & 0 & -1/9  & -7/9 & 5/9   \\
+            0 & 1 & 0 & 4/27  & 1/27 & -2/27 \\
+            0 & 0 & 1 & -2/27 & 4/27 & 1/27
+        \end{array}
+        \right]
+\]
+
+\vspace{8pt}
+\noindent Then we get $A^{-1} = \begin{bmatrix}
+        -1/9  & -7/9 & 5/9   \\
+        4/27  & 1/27 & -2/27 \\
+        -2/27 & 4/27 & 1/27
+    \end{bmatrix}$.
+
+\section{Lower Triangular Matrix $L$}
+
+\paragraph{$L$ is the Inverse of $E$}
+
+\[
+    E = E_{32}E_{31}E_{21} =
+    \begin{bmatrix}
+        1               \\
+        0 & 1           \\
+        0 & -l_{32} & 1
+    \end{bmatrix}
+    \begin{bmatrix}
+        1               \\
+        0       & 1     \\
+        -l_{31} & 0 & 1
+    \end{bmatrix}
+    \begin{bmatrix}
+        1               \\
+        -l_{21} & 1     \\
+        0       & 0 & 1
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        1                                     \\
+        -l_{21}                 & 1           \\
+        (l_{32}l_{21} - l_{31}) & -l_{32} & 1
+    \end{bmatrix}
+\]
+
+\noindent Reverse order looks more beautiful:
+
+\[
+    E^{-1} = E_{21}^{-1}E_{31}^{-1}E_{32}^{-1}
+    =
+    \begin{bmatrix}
+        1              \\
+        l_{21} & 1     \\
+        0      & 0 & 1
+    \end{bmatrix}
+    \begin{bmatrix}
+        1              \\
+        0      & 1     \\
+        l_{31} & 0 & 1
+    \end{bmatrix}
+    \begin{bmatrix}
+        1              \\
+        0 & 1          \\
+        0 & l_{32} & 1
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        1                   \\
+        l_{21} & 1          \\
+        l_{31} & l_{32} & 1
+    \end{bmatrix}
+    = L
+\]
+
+\noindent All the multiplier $l_{ij}$ appear in their correct positions in $L$. This remains true for all matrix sizes.
+
+\begin{mdframed}
+    To prove $A = LU$:
+
+    \[
+        EA = U \rightarrow E^{-1}EA = E^{-1}U
+        \rightarrow IA = E^{-1}U \rightarrow A = E^{-1}U = LU
+    \]
+\end{mdframed}
+
+\section{Transpose Matrix $A^T$}
+
+\begin{mdframed}
+    \begin{tabular}{l l l}
+        \textbf{Sum}     & The transpose of \( A + B \) is  & \( A^T + B^T \)  \\
+        \textbf{Product} & The transpose of \( AB \) is     & \( B^T A^T \)    \\
+        \textbf{Inverse} & The transpose of \( A^{-1} \) is & \( (A^T)^{-1} \)
+    \end{tabular}
+\end{mdframed}
+
+\paragraph{To prove $(AB)^T = B^T A^T$:}
+\begin{itemize}
+    \item Start with $(Ax)^T = x^T A^T$ when $B$ is just a vector.
+          \textbf{$Ax$ combines the columns of $A$ while $x^TA^T$ combines the rows of $A^T$}.
+          So the transpose of the column $Ax$ is the row $x^TA^T$.
+
+    \item Suppose $B$ has columns $x_1$, $x_2$, \dots, the columns of $AB$ are $Ax_1$, $Ax_2$, \dots,
+          $AB = \begin{bmatrix}
+                  Ax_1 & Ax_2 & \dots
+              \end{bmatrix}$. Transposing $AB$ gives $\begin{bmatrix}
+                  x_1^TA^T \\ x_2^TA^T \\ \vdots
+              \end{bmatrix}$
+          which is $B^TA^T$.
+\end{itemize}
+
+\paragraph{To prove $(A^{-1})^{T} = (A^{T})^{-1}$:}
+\begin{itemize}
+    \item Start with $A^{-1}A = I$.
+    \item $(A^{-1}A)^T = I^T = I \quad \rightarrow \quad A^T(A^{-1})^T = I \quad \rightarrow \quad (A^{-1})^T = (A^T)^{-1}$.
+\end{itemize}
+
+\paragraph{Transpose \& Inner product}
+
+The dot product of $x$ and $y$ is the sum of numbers $x_iy_j$. We can write it using matrix notation $x \cdot y = x^Ty$ (both $x$ and $y$ are written as $n \times 1$ matrices).
+
+\[
+    (Ax)^Ty = x^T(A^Ty) \quad \text{Inner product of $Ax$ with $y = $ Inner product of $x$ with $A^Ty$}
+\]
+
+\section{Symmetric Matrix $S$}
+
+A symmetric matrix is equal to its transpose: $S = S^T$. \\
+
+\noindent For any matrix $A$, the product of $A^TA$ is a \textbf{square symmetric} matrix: $(A^TA)^T = A^T(A^T)^T = A^TA$.
+
+\paragraph{Symmetric matrices in elimination $S = LDL^T$} $D$ is the diagonal matrix of pivots. $L$ is the lower triangular matrix of multipliers. \\
+
+\noindent $S = \begin{bmatrix}
+        1 & 2 \\
+        2 & 7
+    \end{bmatrix} =
+    \begin{bmatrix}
+        1 & 0 \\ 2 & 1
+    \end{bmatrix}
+    \begin{bmatrix}
+        1 & 2 \\ 0 & 3
+    \end{bmatrix} = LU
+$ \\
+
+\noindent $S = \begin{bmatrix}
+        1 & 2 \\ 2 & 7
+    \end{bmatrix} =
+    \begin{bmatrix}
+        1 & 0 \\ 2 & 1
+    \end{bmatrix}
+    \begin{bmatrix}
+        1 & 0 \\ 0 & 3
+    \end{bmatrix}
+    \begin{bmatrix}
+        1 & 2 \\ 0 & 1
+    \end{bmatrix} = LDL^T
+$
